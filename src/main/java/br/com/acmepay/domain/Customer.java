@@ -1,13 +1,14 @@
 package br.com.acmepay.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
@@ -21,8 +22,38 @@ public class Customer {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public void create(){
-        //Change the return for a type Customer
+    private List<Customer> customers = new ArrayList<>();
+
+    public void create(Customer customer){
+        this.setId(customer.id);
+        this.setName(customer.name);
+        this.setEmail(customer.email);
+        this.setPhone(customer.phone);
+        this.setDocument(customer.document);
+        this.setAccounts(new ArrayList<>());
+        this.setCreatedAt(LocalDateTime.now());
+        this.setUpdatedAt(null);
+        this.customers.add(this);
     }
+
+    public void delete(Account account){
+        customers.remove(account);
+    }
+
+    public List<Customer> getAllCustomers(){
+        return customers;
+    }
+
+    public void findById(Long id){
+
+    }
+
+    public void updateCustomer(Customer customer){
+
+    }
+
+    public void validEmail(){}
+
+    public void validCpf(){}
 
 }

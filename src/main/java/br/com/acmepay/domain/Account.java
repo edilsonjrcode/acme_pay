@@ -1,9 +1,8 @@
 package br.com.acmepay.domain;
 
 import br.com.acmepay.exceptions.BalanceToWithdrawException;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;;
+import lombok.*;
+;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
