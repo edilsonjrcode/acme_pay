@@ -18,7 +18,7 @@ public class Customer {
     private String phone;
     private String document;
     private List<Account> accounts;
-    private LocalDateTime cretedAt;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public void create(){

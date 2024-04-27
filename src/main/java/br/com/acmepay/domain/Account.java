@@ -22,14 +22,14 @@ public class Account {
     private Boolean closed;
     private List<Card> cards;
     private Customer customer;
-    private LocalDateTime cretedAt;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     private List<Account> accountsCreated = new ArrayList<>();
 
     public void create(Account account) {
         this.setId(account.id);
-        this.setCretedAt(LocalDateTime.now());
+        this.setCreatedAt(LocalDateTime.now());
         this.setUpdatedAt(null);
         this.setCustomer(createCustomer());
         this.setCards(new ArrayList<>());
@@ -41,7 +41,7 @@ public class Account {
     }
 
     public void toWithdraw(BigDecimal amount) throws BalanceToWithdrawException {
-        if(this.balance.compareTo(amount) >= 0){
+        if(checkBalance(amount)){
             this.balance.subtract(amount);
         } else {
             throw new BalanceToWithdrawException("error withdraw");
@@ -53,7 +53,13 @@ public class Account {
         this.balance.add(amount);
     }
 
-    public void transfer(Account accountDestiny, BigDecimal amount){
+    public void transfer(Account accountDestiny, BigDecimal amount) throws BalanceToWithdrawException {
+        this.toWithdraw(amount);
+        accountDestiny.deposit(amount);
+    }
+
+    /*
+    public void transfer2(Account accountDestiny, BigDecimal amount){
         if(this.balance.compareTo(amount) >= 0){
             this.balance.subtract(amount);
             accountDestiny.setBalance(getBalance().add(amount));
@@ -61,6 +67,7 @@ public class Account {
             throw new RuntimeException("transfer error");
         }
     }
+    */
 
     private Customer createCustomer(){
         var customer = new Customer();
@@ -69,10 +76,14 @@ public class Account {
         customer.setEmail("carlos@gmail.com");
         customer.setDocument("03100721403");
         customer.setPhone("83991267778");
-        customer.setCretedAt(LocalDateTime.now());
+        customer.setCreatedAt(LocalDateTime.now());
         customer.setUpdatedAt(null);
         customer.setAccounts(new ArrayList<>());
         return customer;
+    }
+
+    private boolean checkBalance(BigDecimal amount){
+        return this.balance.compareTo(amount) >= 0;
     }
 
 }
