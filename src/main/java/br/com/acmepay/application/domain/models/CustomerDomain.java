@@ -1,4 +1,4 @@
-package br.com.acmepay.domain;
+package br.com.acmepay.application.domain.models;
 
 import lombok.*;
 
@@ -11,20 +11,20 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class CustomerDomain {
 
     private Long id;
     private String name;
     private String email;
     private String phone;
     private String document;
-    private List<Account> accounts;
+    private List<AccountDomain> accounts;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private List<Customer> customers = new ArrayList<>();
+    private List<CustomerDomain> customers = new ArrayList<>();
 
-    public void create(Customer customer){
+    public void create(CustomerDomain customer){
         this.setId(customer.id);
         this.setName(customer.name);
         this.setEmail(customer.email);
@@ -36,11 +36,11 @@ public class Customer {
         this.customers.add(this);
     }
 
-    public void delete(Account account){
+    public void delete(AccountDomain account){
         customers.remove(account);
     }
 
-    public List<Customer> getAllCustomers(){
+    public List<CustomerDomain> getAllCustomers(){
         return customers;
     }
 
@@ -48,7 +48,7 @@ public class Customer {
 
     }
 
-    public void updateCustomer(Customer customer){
+    public void updateCustomer(CustomerDomain customer){
 
     }
 

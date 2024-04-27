@@ -1,7 +1,5 @@
 package br.com.acmepay;
 
-import br.com.acmepay.domain.Customer;
-
 public class Main {
     public static void main(String[] args) {
         /*Customer customer = new Customer();

@@ -1,4 +1,4 @@
-package br.com.acmepay.domain;
+package br.com.acmepay.application.domain.models;
 
 import br.com.acmepay.exceptions.BalanceToWithdrawException;
 import lombok.*;
@@ -14,21 +14,21 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class AccountDomain {
 
     private Long id;
     private Integer number;
     private Integer agency;
     private BigDecimal balance;
     private Boolean closed;
-    private List<Card> cards;
-    private Customer customer;
+    private List<CardDomain> cards;
+    private CustomerDomain customer;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     private List<String> transactions = new ArrayList<>();
 
-    public void create(Account account) {
+    public void create(AccountDomain account) {
         this.setId(account.id);
         this.setCreatedAt(LocalDateTime.now());
         this.setUpdatedAt(null);
@@ -55,7 +55,7 @@ public class Account {
         addLog("Deposit made successful" + amount.toString());
     }
 
-    public void transfer(Account accountDestiny, BigDecimal amount) throws BalanceToWithdrawException {
+    public void transfer(AccountDomain accountDestiny, BigDecimal amount) throws BalanceToWithdrawException {
         this.toWithdraw(amount);
         accountDestiny.deposit(amount);
         addLog("Transfer completed successful. From: " + this.number
@@ -66,8 +66,8 @@ public class Account {
         return transactions;
     }
 
-    private Customer createCustomer(){
-        var customer = new Customer();
+    private CustomerDomain createCustomer(){
+        var customer = new CustomerDomain();
         customer.setId(1L);
         customer.setName("Edilson Júnior");
         customer.setEmail("edilson@gmail.com");
