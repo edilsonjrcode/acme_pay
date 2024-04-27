@@ -25,7 +25,7 @@ public class Account {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private List<Account> accountsCreated = new ArrayList<>();
+    private List<String> transactions = new ArrayList<>();
 
     public void create(Account account) {
         this.setId(account.id);
@@ -37,45 +37,41 @@ public class Account {
         this.setNumber(account.number);
         this.setAgency(account.agency);
         this.setClosed(account.closed);
-        this.accountsCreated.add(this);
+        addLog("Account created successfully" + LocalDateTime.now());
     }
 
     public void toWithdraw(BigDecimal amount) throws BalanceToWithdrawException {
         if(checkBalance(amount)){
             this.balance.subtract(amount);
+            addLog("Withdrawl made successful" + amount.toString() + ".");
         } else {
             throw new BalanceToWithdrawException("error withdraw");
         }
-
     }
 
     public void deposit(BigDecimal amount){
         this.balance = this.balance.add(amount);
+        addLog("Deposit made successful" + amount.toString());
     }
 
     public void transfer(Account accountDestiny, BigDecimal amount) throws BalanceToWithdrawException {
         this.toWithdraw(amount);
         accountDestiny.deposit(amount);
+        addLog("Transfer completed successful. From: " + this.number
+                + " to " + accountDestiny.number);
     }
 
-    /*
-    public void transfer2(Account accountDestiny, BigDecimal amount){
-        if(this.balance.compareTo(amount) >= 0){
-            this.balance.subtract(amount);
-            accountDestiny.setBalance(getBalance().add(amount));
-        } else {
-            throw new RuntimeException("transfer error");
-        }
+    public List<String> extract(){
+        return transactions;
     }
-    */
 
     private Customer createCustomer(){
         var customer = new Customer();
         customer.setId(1L);
-        customer.setName("Carlos Barbosa");
-        customer.setEmail("carlos@gmail.com");
-        customer.setDocument("03100721403");
-        customer.setPhone("83991267778");
+        customer.setName("Edilson Júnior");
+        customer.setEmail("edilson@gmail.com");
+        customer.setDocument("12345678911");
+        customer.setPhone("83999998888");
         customer.setCreatedAt(LocalDateTime.now());
         customer.setUpdatedAt(null);
         customer.setAccounts(new ArrayList<>());
@@ -84,6 +80,10 @@ public class Account {
 
     private boolean checkBalance(BigDecimal amount){
         return this.balance.compareTo(amount) >= 0;
+    }
+
+    private void addLog(String message){
+        this.transactions.add(message + LocalDateTime.now());
     }
 
 }
