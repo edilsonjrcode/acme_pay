@@ -50,7 +50,7 @@ public class Account {
     }
 
     public void deposit(BigDecimal amount){
-        this.balance.add(amount);
+        this.balance = this.balance.add(amount);
     }
 
     public void transfer(Account accountDestiny, BigDecimal amount) throws BalanceToWithdrawException {
